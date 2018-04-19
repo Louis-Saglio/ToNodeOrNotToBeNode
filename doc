@@ -1,0 +1,54 @@
+Model
+
+Task:
+    id                  int
+    priority            1 <-> 5
+    name                str
+    content             str
+    expiration_date     int
+    is_done             bool
+    user_id             int
+
+User:
+    id          int
+    email       str
+    name        str
+    password    str
+
+
+
+API REST
+
+?password=$password
+
+GET /tasks {"tasks": [Task, ...]} 200
+POST /tasks {"tasks": [{
+    "priority",  // not mandatory
+    "name",
+    "content",
+    "expiration_date",  // not mandatory
+    "is_done"  // not mandatory
+  }, ...]}
+  201
+}
+PUT /tasks/$id cf POST + nothing mandatory 204
+DELETE /tasks/$id 204
+DELETE /tasks 204
+
+
+API
+
+todoapp
+
+--create -c (indique que l'on souhaite créer une tache
+    --name -n "name"
+    --priority - p  # not mandatory
+    --content -t
+    --expiration-date -e  # not mandatory
+    --is-done -d  # not mandatory
+
+--list -l
+
+--edit -e $id
+
+--delete -d $id
