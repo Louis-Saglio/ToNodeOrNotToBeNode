@@ -12,11 +12,11 @@ program
     .option('-l, --list', 'List all notes')
     .option('-e, --edit [id]', 'edit note by id')
     .option('-x, --delete [id]', 'Delete note by id')
-    .option('-p, --priority [priority]', 'Delete note by id')
-    .option('-t, --content [content]', 'Delete note by id')
-    .option('-s, --stop-date [date]', 'Delete note by id')
-    .option('-d, --is-done [bool]', 'Delete note by id')
-    .option('-n, --name [name]', 'Delete note by id')
+    .option('-p, --priority [priority]', 'Define importance of the note')
+    .option('-t, --content [content]', 'write your note here')
+    .option('-s, --stopDate [date]', 'Define an expiration date')
+    .option('-d, --isDone [bool]', 'define is task is done or not')
+    .option('-n, --name [name]', 'define the name of the note')
 
 // On parse (convertit en format utilisable) les options
 // fonction synchrone
@@ -26,20 +26,21 @@ program
 // Maintenant on peut les utiliser
 if (program.create) {
     console.log('Create note !')
-    if (program.name) {
+    if (program.name && program.content) {
         console.log(`name ${program.name}!`)
-    }
-    else if (program.priority) {
-        console.log(`priority ${program.priority}!`)
-    }
-    else if (program.content) {
         console.log(`content ${program.content}!`)
     }
-    else if (program.stop-date) {
-        console.log(`stop date ${program.stop-date}!`)
+    if (program.priority) {
+        console.log(`priority ${program.priority}!`)
     }
-    else if (program.is-done) {
-        console.log(`is done ${program.is-done}!`)
+    /*if (program.content) {
+        console.log(`content ${program.content}!`)
+    }*/
+    if (program.stopDate) {
+        console.log(`stop date ${program.stopDate}!`)
+    }
+    if (program.isDone) {
+        console.log(`is done ${program.isDone}!`)
     }
 }
 else if (program.list) {
@@ -50,17 +51,17 @@ else if (program.edit) {
     if (program.name) {
         console.log(`name ${program.name}!`)
     }
-    else if (program.priority) {
+    if (program.priority) {
         console.log(`priority ${program.priority}!`)
     }
-    else if (program.content) {
+    if (program.content) {
         console.log(`content ${program.content}!`)
     }
-    else if (program.stop-date) {
-        console.log(`stop date ${program.stop-date}!`)
+    if (program.stopDate) {
+        console.log(`stop date ${program.stopDate}!`)
     }
-    else if (program.is-done) {
-        console.log(`is done ${program.is-done}!`)
+    if (program.isDone) {
+        console.log(`is done ${program.isDone}!`)
     }
 }
 else if (program.delete) {
