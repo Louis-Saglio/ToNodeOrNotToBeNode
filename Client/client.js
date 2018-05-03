@@ -40,11 +40,16 @@ if (program.create) {
 }
 
 else if (program.list) {
-    console.log('List!')
+    console.log(axios.get(http, `/tasks`))
 }
 
 else if (program.delete) {
-    console.log(`deleted note ${program.delete}!`)
+    if (program.delete == true){
+        axios.delete(http, `/tasks`)
+    }
+    else{
+        axios.delete(http, `/tasks/${program.delete}`)
+    }
 }
 
 else
