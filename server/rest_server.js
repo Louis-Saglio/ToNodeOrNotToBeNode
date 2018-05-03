@@ -2,27 +2,9 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize({dialect: 'sqlite', storage: 'sqlite.db'});
 
 sequelize.authenticate().then(() => {
-    console.log('marche');
+    console.log('connecté à la base');
 }).catch(() => {
-    console.log("marche pas");
-});
-
-
-const User = sequelize.define('user', {
-    'email': {
-        type: Sequelize.Sequelize.STRING,
-        validate: {
-            isEmail: true
-        }
-    },
-    'name': {
-        type: Sequelize.Sequelize.STRING,
-        allowNull: true
-    },
-    'password': {
-        type: Sequelize.Sequelize.STRING,
-        allowNull: true
-    }
+    console.log('erreur de connection à la base');
 });
 
 
@@ -50,20 +32,12 @@ const Task = sequelize.define('task', {
     'is_done': {
         type: Sequelize.Sequelize.BOOLEAN,
         allowNull: true
-    },
-    'user_id': {
-        type: Sequelize.Sequelize.INTEGER,
-        references: {
-            model: User,
-            key: 'id',
-        }
     }
 });
 
 
 async function migrate(){
-    // noinspection ES6ModulesDependencies
-    await Promise.all([User.sync({force: true}), Task.sync({force: true})])
+    await Task.sync({force: true})
 }
 
 
@@ -89,29 +63,26 @@ app.route('/tasks')
             promises.push(Task.create(task));
         }
         Promise.all(promises).then(() => {
-            res.send('done');
+            res.send(201);
         }).catch((e) => {
-            res.send(e, 500)
+            res.send(500)
         })
     })
     .delete((req, res) => {
-        // Task.destroy({
-        //     where: {
-        //
-        //     }
-        // })
-    })
-    .put((req, res) => {
-        res.send('put');
+        Task.destroy({truncate: true}).then(() => {res.send(204)}).catch(() => {res.send(500)})
     });
 
 
 app.route('/tasks/:id')
-    .put((req, res) => {
-        res.send('put with id');
+    .delete((req, res) => {
+        Task.destroy({
+            where: {id: req.params.id}
+        }).then(() => {
+            res.send(204)
+        }).catch(() => {
+            res.send(500)
+        })
     });
 
 
-app.listen(3000, () => {
-    console.log('marche');
-});
+app.listen(3000, () => {'listening on port 3000 : http://127.0.0.1:3000/tasks'});
